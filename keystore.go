@@ -14,8 +14,6 @@ import (
 
 )
 
-var DEFAULT_KEYSTORE_LOCATION = ""
-
 const (
 
 	SK_STATUS_PENDING				= iota

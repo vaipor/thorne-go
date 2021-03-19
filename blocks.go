@@ -368,6 +368,26 @@ type Element struct {
 }
 
 // ******************************************************
+// RSS
+// This allows for presenting RSS articles
+// ******************************************************
+const RSSType = "rss"
+type RSS struct {
+
+	Title								string
+	Description 				string
+	Content 						string
+	Link 								string
+	Published 					string
+	Author 							string
+	Image 							string
+	Categories 					[]string
+	Source 							string
+	URL 								string
+
+}
+
+// ******************************************************
 // HTML
 // This allows for presenting HTML Encoded data
 // ******************************************************
