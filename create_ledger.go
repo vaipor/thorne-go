@@ -13,9 +13,9 @@ import (
 
 )
 
-func CreateLedger(ks *KeyStore, ledgerType int, key []byte, addtlUsers []string) (string, error) {
+func CreateLedger(ks *KeyStore, name string, description string, site string, hasIcon bool, ledgerType int, key []byte, addtlUsers []string) (string, error) {
 
-	b := LedgerBlock{UUID: ks.UUID, Date: time.Now().Format(time.RFC3339), LedgerType: ledgerType, AdditionalUsers: addtlUsers}
+	b := LedgerBlock{Name: name, Description: description, Site: site, HasIcon: hasIcon, UUID: ks.UUID, Date: time.Now().Format(time.RFC3339), LedgerType: ledgerType, AdditionalUsers: addtlUsers}
 	sigB, e := json.Marshal(b)
 	if e != nil {
 		log.Printf("Failed to Marshal Block Body: %s", e)

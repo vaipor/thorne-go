@@ -90,6 +90,10 @@ type LedgerBlock struct {
   Date                    string        // timestamp to increase entropy
   LedgerType              int
   UUID                    string        // UUID of the user creating the ledger
+  Name                    string
+  Site                    string
+  Description             string
+  HasIcon                 bool
 
 }
 
