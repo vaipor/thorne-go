@@ -65,7 +65,7 @@ type KeyStore struct {
 	LedgerKeys 							map[string]SharedKey
 	Ledgers 								[]NewLedger
 	Connections 						[]Connection
-	Metadata 								map[string]string{}
+	Metadata 								map[string]interface{}
 
 }
 
