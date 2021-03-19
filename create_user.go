@@ -117,13 +117,13 @@ func Signup(ks *KeyStore) error {
 	SaveLedger(ks, "ul" + nu.UUID, LEDGER_TYPE_REQUESTS, []byte{}, []string{})
 
 	// create our public ledger
-	if _, e = CreateLedger(ks, LEDGER_TYPE_PUBLIC, []byte{}, []string{}); e != nil {
+	if _, e = CreateLedger(ks, "", "", "", false, "", "", "", false, LEDGER_TYPE_PUBLIC, []byte{}, []string{}); e != nil {
 		log.Printf("Failed to create Public Ledger: %s", e)
 		return e
 	}
 
 	// create our private ledger
-	if _, e = CreateLedger(ks, LEDGER_TYPE_PRIVATE, GeneratePass(), []string{}); e != nil {
+	if _, e = CreateLedger(ks, "", "", "", false, LEDGER_TYPE_PRIVATE, GeneratePass(), []string{}); e != nil {
 		log.Printf("Failed to create Private Ledger: %s", e)
 		return e
 	}

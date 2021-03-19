@@ -195,7 +195,7 @@ func HandleKeyExchangeResponse(ks *KeyStore, ke *KeyExchangeResponse) error {
 
 	//log.Printf("Generated Symmetric Key %s", base64.StdEncoding.EncodeToString(sKey))
 
-	ledgerUUID, e := CreateLedger(ks, LEDGER_TYPE_ONEONONE, sKey, []string{ke.UUID})
+	ledgerUUID, e := CreateLedger(ks, "", "", "", false, LEDGER_TYPE_ONEONONE, sKey, []string{ke.UUID})
 	if e != nil {
 		log.Printf("Failed to Create Ledger: %s", e)
 		return e
