@@ -22,7 +22,7 @@ func CreateLedger(ks *KeyStore, name string, description string, site string, ha
 		return "", e
 	}
 
-	br := LedgerRequest{LedgerBlock: b, Signature: base64.StdEncoding.EncodeToString(GenerateSignature(ks.PrivateKey, []byte(b.LedgerBlock.UUID + fmt.Sprintf("%d", b.LedgerBlock.LedgerType) + b.LedgerBlock.Date)))}
+	br := LedgerRequest{LedgerBlock: b, Signature: base64.StdEncoding.EncodeToString(GenerateSignature(ks.PrivateKey, []byte(b.UUID + fmt.Sprintf("%d", b.LedgerType) + b.Date)))}
 	buf, e := json.Marshal(br)
 	if e != nil {
 		log.Printf("Failed to Marshal Block: %s", e)
