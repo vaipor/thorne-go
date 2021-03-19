@@ -65,6 +65,7 @@ type KeyStore struct {
 	LedgerKeys 							map[string]SharedKey
 	Ledgers 								[]NewLedger
 	Connections 						[]Connection
+	Metadata 								map[string]string{}
 
 }
 
@@ -79,6 +80,7 @@ type KeyStoreDisk struct {
 	LedgerKeys 							map[string]SharedKey
 	Ledgers 								[]NewLedger
 	Connections 						[]Connection
+	Metadata 								map[string]interface{}
 	
 }
 
@@ -94,7 +96,7 @@ func ReadKeyStore(pass []byte, filename string) (*KeyStore, error) {
 				log.Fatalf("failed to create rsa key: %s", e)
 			}
 
-			ks := &KeyStore{PrivateKey: GenerateKey(), PublicUserKey: GenerateKey(), RSAKey: rsaKey, Connections: []Connection{}, LedgerKeys: map[string]SharedKey{}, Ledgers: []NewLedger{}, PendingConnections: map[string]SharedKey{}}
+			ks := &KeyStore{PrivateKey: GenerateKey(), PublicUserKey: GenerateKey(), RSAKey: rsaKey, Connections: []Connection{}, LedgerKeys: map[string]SharedKey{}, Ledgers: []NewLedger{}, PendingConnections: map[string]SharedKey{}, Metadata: map[string]interface{}{} }
 			if e := Signup(ks); e != nil {
 				log.Fatalf("Could not create new user account: %s", e)
 			}
@@ -123,7 +125,7 @@ func ReadKeyStore(pass []byte, filename string) (*KeyStore, error) {
 		return nil, e
 	}
 
-	ks := &KeyStore{LedgerKeys: ksd.LedgerKeys, UUID: ksd.UUID, PublicUUID: ksd.PublicUUID, PublicUserKey: DecodeKey(ksd.PublicUserKey), PrivateKey: DecodeKey(ksd.PrivateKey), RSAKey: DecodeRSAKey(ksd.RSAKey), Ledgers: ksd.Ledgers, PendingConnections: ksd.PendingConnections}
+	ks := &KeyStore{LedgerKeys: ksd.LedgerKeys, UUID: ksd.UUID, PublicUUID: ksd.PublicUUID, PublicUserKey: DecodeKey(ksd.PublicUserKey), PrivateKey: DecodeKey(ksd.PrivateKey), RSAKey: DecodeRSAKey(ksd.RSAKey), Ledgers: ksd.Ledgers, PendingConnections: ksd.PendingConnections, Metadata: ksd.Metadata}
 
 	if ks.PendingConnections == nil {
 		ks.PendingConnections = map[string]SharedKey{}
@@ -134,7 +136,7 @@ func ReadKeyStore(pass []byte, filename string) (*KeyStore, error) {
 
 func WriteKeyStore(pass []byte, filename string, ks *KeyStore) error {
 
-	ksd := KeyStoreDisk{Ledgers: ks.Ledgers, LedgerKeys: ks.LedgerKeys, PrivateKey: EncodeKey(ks.PrivateKey), PublicUserKey: EncodeKey(ks.PublicUserKey), RSAKey: EncodeRSAKey(ks.RSAKey), UUID: ks.UUID, PublicUUID: ks.PublicUUID, PendingConnections: ks.PendingConnections}
+	ksd := KeyStoreDisk{Ledgers: ks.Ledgers, LedgerKeys: ks.LedgerKeys, PrivateKey: EncodeKey(ks.PrivateKey), PublicUserKey: EncodeKey(ks.PublicUserKey), RSAKey: EncodeRSAKey(ks.RSAKey), UUID: ks.UUID, PublicUUID: ks.PublicUUID, PendingConnections: ks.PendingConnections, Metadata: ks.Metadata}
 	buf, e := json.Marshal(ksd)
 	if e != nil {
 		log.Fatalf("Failed to marshal keystore for storage: %s", e)
