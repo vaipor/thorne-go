@@ -36,6 +36,7 @@ type NewPublicUser struct {
 type UserUpdate struct {
 
   UUID                    string
+  Date                    string
   Token                   string
   TransactionID           string
   Signature               string
@@ -45,6 +46,7 @@ type UserUpdate struct {
 type PublicProfileRequest struct {
 
   UUID                    string
+  Date                    string
   Name                    string
   Description             string
   Phone                   string
@@ -71,7 +73,7 @@ type LedgerBlockRequest struct {
 type LedgerLastBlock struct {
 
   UUID                    string        // UUID of the user creating the ledger
-  Date                    string        // timestamp to increase entropy
+  Date                    string        // timestamp to increase entropy and prevent replay attacks
   LedgerUUID              string
 
 }
@@ -87,7 +89,7 @@ type LedgerRequest struct {
 type LedgerBlock struct {
 
   AdditionalUsers         []string
-  Date                    string        // timestamp to increase entropy
+  Date                    string        // timestamp to increase entropy and prevent replay attacks
   LedgerType              int
   UUID                    string        // UUID of the user creating the ledger
   Name                    string
