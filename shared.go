@@ -26,6 +26,9 @@ import (
 // This Google Document leads me to believe a single bucket is a scalable solution
 // https://cloud.google.com/storage/quotas
 
+const MIN_RETRIES = 5
+const TIME_FORMAT = "2006-01-02T15:04:05.999999999Z"
+
 var bucketName = "vaipor_bucket_0"
 var userBucketName = "vaipor_users_0"
 var publicUserBucketName = "vaipor_public_users_0"
@@ -45,6 +48,21 @@ func InArray(v string, arr []string) bool {
   }
 
   return false
+}
+
+func ValidateTimeSince(time string, since time.Duration) bool {
+  reqDate, e := time.Parse(TIME_FORMAT, lr.LedgerLastBlock.Date)
+  if e != nil {
+    log.Printf("invalid date given: %s", e)
+    return false
+  }
+
+  if time.Since(reqDate) > (3 * time.Second) {
+    log.Printf("It has been too long since the signature was generated")
+    return false
+  }
+
+  return true
 }
 
 func GetUUID() string {
