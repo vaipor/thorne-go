@@ -63,7 +63,7 @@ type KeyStore struct {
 	LedgerKeys 							map[string]SharedKey
 	Ledgers 								[]NewLedger
 	Connections 						[]Connection
-	Metadata 								map[string]interface{}
+	Metadata 								map[string]string
 
 }
 
@@ -94,7 +94,7 @@ func ReadKeyStore(pass []byte, filename string) (*KeyStore, error) {
 				log.Fatalf("failed to create rsa key: %s", e)
 			}
 
-			ks := &KeyStore{PrivateKey: GenerateKey(), PublicUserKey: GenerateKey(), RSAKey: rsaKey, Connections: []Connection{}, LedgerKeys: map[string]SharedKey{}, Ledgers: []NewLedger{}, PendingConnections: map[string]SharedKey{}, Metadata: map[string]interface{}{} }
+			ks := &KeyStore{PrivateKey: GenerateKey(), PublicUserKey: GenerateKey(), RSAKey: rsaKey, Connections: []Connection{}, LedgerKeys: map[string]SharedKey{}, Ledgers: []NewLedger{}, PendingConnections: map[string]SharedKey{}, Metadata: map[string]string{} }
 			if e := Signup(ks); e != nil {
 				log.Fatalf("Could not create new user account: %s", e)
 			}
