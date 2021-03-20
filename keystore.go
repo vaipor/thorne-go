@@ -78,7 +78,7 @@ type KeyStoreDisk struct {
 	LedgerKeys 							map[string]SharedKey
 	Ledgers 								[]NewLedger
 	Connections 						[]Connection
-	Metadata 								map[string]interface{}
+	Metadata 								map[string]string
 	
 }
 
