@@ -50,8 +50,8 @@ func InArray(v string, arr []string) bool {
   return false
 }
 
-func ValidateTimeSince(time string, since time.Duration) bool {
-  reqDate, e := time.Parse(TIME_FORMAT, lr.LedgerLastBlock.Date)
+func ValidateTimeSince(timestamp string, since time.Duration) bool {
+  reqDate, e := time.Parse(TIME_FORMAT, timestamp)
   if e != nil {
     log.Printf("invalid date given: %s", e)
     return false
