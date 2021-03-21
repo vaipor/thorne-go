@@ -20,7 +20,7 @@ func CheckLedger(ks *KeyStore, ledger *NewLedger, ledgerNum int) error {
 		return fmt.Errorf("Failed to Locate Matching Ledger: %s", ledger.UUID)
 	}
 
-	llb := LedgerLastBlock{UUID: ks.UUID, Date: time.Now().Format(time.RFC3339), LedgerUUID: ledger.UUID}
+	llb := LedgerLastBlock{UUID: ks.UUID, Date: time.Now().UTC().Format(time.RFC3339), LedgerUUID: ledger.UUID}
 	lbr := LedgerBlockRequest{LedgerLastBlock: llb, Signature: base64.StdEncoding.EncodeToString(GenerateSignature(ks.PrivateKey, []byte(llb.UUID + llb.Date + llb.LedgerUUID)))}
 	buf, e := json.Marshal(lbr)
 	if e != nil {

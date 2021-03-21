@@ -55,7 +55,7 @@ func WriteBlock(ks *KeyStore, ledgerUUID string, blockType string, content strin
 		bodyBase64 = base64.StdEncoding.EncodeToString(body)
 	}
 	
-	date := time.Now().Format(time.RFC3339)
+	date := time.Now().UTC().Format(time.RFC3339)
 	b := NewBlock{UUID: ks.UUID, Ledger: ledgerUUID, Date: date, Contents: bodyBase64, BlockType: blockType}
 
 	br := BlockRequest{Block: b, Signature: base64.StdEncoding.EncodeToString(GenerateSignature(ks.PrivateKey, []byte(ks.UUID + ledgerUUID + bodyBase64 + date + blockType)))}

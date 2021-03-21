@@ -15,7 +15,7 @@ import (
 
 func CreateLedger(ks *KeyStore, name string, description string, site string, hasIcon bool, ledgerType int, key []byte, addtlUsers []string) (string, error) {
 
-	b := LedgerBlock{Name: name, Description: description, Site: site, HasIcon: hasIcon, UUID: ks.UUID, Date: time.Now().Format(TIME_FORMAT), LedgerType: ledgerType, AdditionalUsers: addtlUsers}
+	b := LedgerBlock{Name: name, Description: description, Site: site, HasIcon: hasIcon, UUID: ks.UUID, Date: time.Now().UTC().Format(TIME_FORMAT), LedgerType: ledgerType, AdditionalUsers: addtlUsers}
 
 	br := LedgerRequest{LedgerBlock: b, Signature: base64.StdEncoding.EncodeToString(GenerateSignature(ks.PrivateKey, []byte(b.UUID + fmt.Sprintf("%d", b.LedgerType) + b.Date)))}
 	buf, e := json.Marshal(br)
