@@ -14,12 +14,7 @@ import (
   "log"
   "math/big"
   "net/http"
-  "os"
   "strings"
-  "time"
-
-  "cloud.google.com/go/storage"
-  "github.com/google/uuid"
 
 )
 
