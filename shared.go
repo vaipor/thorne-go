@@ -39,52 +39,6 @@ type ECDSASignature struct {
     R, S *big.Int
 }
 
-func InArray(v string, arr []string) bool {
-
-  for i := 0; i < len(arr); i++ {
-    if v == arr[i] {
-      return true
-    }
-  }
-
-  return false
-}
-
-func ValidateTimeSince(timestamp string, since time.Duration) bool {
-  reqDate, e := time.Parse(TIME_FORMAT, timestamp)
-  if e != nil {
-    log.Printf("invalid date given: %s", e)
-    return false
-  }
-
-  if time.Since(reqDate) > (3 * time.Second) {
-    log.Printf("It has been too long since the signature was generated")
-    return false
-  }
-
-  return true
-}
-
-func GetUUID() string {
-
-  id, e := uuid.NewUUID()
-  if e != nil {
-    log.Fatalf("Failed to create block uuid: %v", e)
-  }
-
-  return id.String()
-}
-
-func GetRandomUUID() string {
-
-  id, e := uuid.NewRandom()
-  if e != nil {
-    log.Fatalf("failed to create random uuid: %s", e)
-  }
-
-  return id.String()
-}
-
 func GetPublicKey(uuid string) *ecdsa.PublicKey {
 
   bucket := userBucketName
@@ -92,7 +46,7 @@ func GetPublicKey(uuid string) *ecdsa.PublicKey {
     bucket = publicUserBucketName
   }
 
-  url := "https://storage.googleapis.com/" + bucket + "/" + uuid + "/public.key"
+  url := "https://users.thorne.app/" + uuid + "/public.key"
   r, e := http.Get(url)
   if e != nil {
     log.Fatalf("Failed to get public key (%s): %s", url, e)
@@ -122,7 +76,7 @@ func RsaGetPublicKey(uuid string) (*rsa.PublicKey, error) {
     bucket = publicUserBucketName
   }
 
-  url := "https://storage.googleapis.com/" + bucket + "/" + uuid + "/rsa.key"
+  url := "https://publicusers.thorne.app/" + uuid + "/rsa.key"
   r, e := http.Get(url)
   if e != nil {
     log.Fatalf("Failed to get rsa public key (%s): %s", url, e)
@@ -144,7 +98,7 @@ func RsaGetPublicKey(uuid string) (*rsa.PublicKey, error) {
   var parsedKey interface{}
   if parsedKey, e = x509.ParsePKCS1PublicKey(key); e != nil {
     log.Printf("Not PKCS1 PublicKey: %s", e)
-    if parsedKey, e = x509.ParsePKIXPublicKey(key); e != nil { // note this returns type `interface{}`
+    if parsedKey, e = x509.ParsePKIXPublicKey(key); e != nil {
       return nil, e
     }
   }
@@ -175,25 +129,4 @@ func VerifySignature(publicKey *ecdsa.PublicKey, signature string, data []byte) 
 
   hash := sha256.Sum256(data)
   return ecdsa.Verify(publicKey, hash[:], sig.R, sig.S)
-}
-
-func GetSignedURL(bucketName string, uid string, file string) string {
-
-  opts := &storage.SignedURLOptions{
-          Scheme: storage.SigningSchemeV4,
-          Method: "PUT",
-          Headers: []string{
-                  "Content-Type:application/octet-stream",
-          },
-          GoogleAccessID: os.Getenv("EMAIL"),
-          PrivateKey:     []byte(os.Getenv("KEY")),
-          Expires:        time.Now().Add(15 * time.Minute),
-  }
-
-  u, e := storage.SignedURL(bucketName, uid + "/" + file, opts)
-  if e != nil {
-    log.Fatalf("storage.SignedURL: %v", e)
-  }
-
-  return u
 }

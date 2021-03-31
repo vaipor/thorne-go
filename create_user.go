@@ -17,7 +17,7 @@ import (
 func Signup(ks *KeyStore) error {
 
 	c := &http.Client{}
-	r, e := http.NewRequest("GET", "https://us-central1-vaipor.cloudfunctions.net/CreateUser", nil)
+	r, e := http.NewRequest("GET", "https://thorne.app/api/createuser", nil)
 	if e != nil {
 		log.Printf("Failed to create request: %s", e)
 		return e

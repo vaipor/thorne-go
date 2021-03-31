@@ -66,7 +66,7 @@ func WriteBlock(ks *KeyStore, ledgerUUID string, blockType string, content strin
 	}
 
 	c := &http.Client{}
-	r, e := http.NewRequest("PUT", "https://us-central1-vaipor.cloudfunctions.net/WriteBlock", bytes.NewBuffer(buf))
+	r, e := http.NewRequest("PUT", "https://thorne.app/api/write", bytes.NewBuffer(buf))
 	if e != nil {
 		log.Printf("Failed to create request: %s", e)
 		return e

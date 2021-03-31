@@ -29,7 +29,7 @@ func CheckLedger(ks *KeyStore, ledger *NewLedger, ledgerNum int) error {
 	}
 
 	c := &http.Client{}
-	r, e := http.NewRequest("PUT", "https://us-central1-vaipor.cloudfunctions.net/GetLedger", bytes.NewBuffer(buf))
+	r, e := http.NewRequest("PUT", "https://thorne.app/api/getledger", bytes.NewBuffer(buf))
 	if e != nil {
 		log.Printf("Failed to create request: %s", e)
 		return e

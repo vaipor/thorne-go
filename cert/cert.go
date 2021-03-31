@@ -44,17 +44,6 @@ func GenerateSymetricKey(privateKey *ecdsa.PrivateKey, publicKey *ecdsa.PublicKe
 		return nil, fmt.Errorf("Private Key is NIL")
 	}
 
-	/*
-	key, e := base64.StdEncoding.DecodeString("BAH4aEOKB6Z/IFRmTypGJrhfBdkZlrz3iGWGIPf27CJmOHxOK5gJGAoDQ607NCTyD61TVxhsgQS8yPy4QETmxdx+ewAf+wFEt1esb/m9yHpLNZVOFm+icOXpvPvmSGpZcmQGJ8u4u1h87b7xC8bVWwJIcSZ0ixDpxtXTvP92AQBlVRuk2g==")
-  if e != nil {
-    log.Fatalf("base64 error: %s", e)
-  }
-
-  p521 := elliptic.P521()
-  x, y := elliptic.Unmarshal(p521, []byte(key))
-  theirPublicKey := &ecdsa.PublicKey{p521, x, y}
-  */
-
   eciesPublicKey := ecies.ImportECDSAPublic(publicKey)
 	eciesPrivateKey := ecies.ImportECDSA(privateKey)
 	skLen := ecies.MaxSharedKeyLength(&eciesPrivateKey.PublicKey) / 2
@@ -73,8 +62,6 @@ func GenerateSymetricKey(privateKey *ecdsa.PrivateKey, publicKey *ecdsa.PublicKe
       log.Printf("Failed to read from HKDF: %s", e)
       return nil, e
   }
-
-  //fmt.Println(base64.StdEncoding.EncodeToString(k))
 
   return k, nil
 }

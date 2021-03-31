@@ -25,7 +25,7 @@ func CreateLedger(ks *KeyStore, name string, description string, site string, ha
 	}
 
 	c := &http.Client{}
-	r, e := http.NewRequest("PUT", "https://us-central1-vaipor.cloudfunctions.net/CreateLedger", bytes.NewBuffer(buf))
+	r, e := http.NewRequest("PUT", "https://thorne.app/api/createledger", bytes.NewBuffer(buf))
 	if e != nil {
 		log.Printf("Failed to create request: %s", e)
 		return "", e
@@ -38,7 +38,7 @@ func CreateLedger(ks *KeyStore, name string, description string, site string, ha
 	}
 
 	if x.StatusCode != 200 {
-		return "", fmt.Errorf("Failed to write block: %d", x.StatusCode)
+		return "", fmt.Errorf("Failed to create ledger: %d", x.StatusCode)
 	}
 
 	if buf, e = ioutil.ReadAll(x.Body); e != nil {
