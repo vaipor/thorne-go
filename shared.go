@@ -36,12 +36,12 @@ type ECDSASignature struct {
 
 func GetPublicKey(uuid string) *ecdsa.PublicKey {
 
-  bucket := userBucketName
+  host := "users"
   if strings.HasPrefix(uuid, "p") {
-    bucket = publicUserBucketName
+    host = "publicusers"
   }
 
-  url := "https://users.thorne.app/" + uuid + "/public.key"
+  url := "https://" + host + ".thorne.app/" + uuid + "/public.key"
   r, e := http.Get(url)
   if e != nil {
     log.Fatalf("Failed to get public key (%s): %s", url, e)
@@ -66,12 +66,12 @@ func GetPublicKey(uuid string) *ecdsa.PublicKey {
 
 func RsaGetPublicKey(uuid string) (*rsa.PublicKey, error) {
 
-  bucket := userBucketName
+  host := "users"
   if strings.HasPrefix(uuid, "p") {
-    bucket = publicUserBucketName
+    host = "publicusers"
   }
 
-  url := "https://publicusers.thorne.app/" + uuid + "/rsa.key"
+  url := "https://" + host + ".thorne.app/" + uuid + "/rsa.key"
   r, e := http.Get(url)
   if e != nil {
     log.Fatalf("Failed to get rsa public key (%s): %s", url, e)
